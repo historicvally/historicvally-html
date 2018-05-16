@@ -18,10 +18,10 @@
  * 或者 his_multilevel_linkage_ini(["parentId0","parentId1"], "/listAllCategory", null,"请选择");
  *
  * his_multilevel_linkage_ini_easy部分原理示例说明：
- * 例如传入的chooseId是17，那么会自动寻找其父类，得到[17,父类5,再父类3]，会得到17对应的是第三级分类,
- * 此时例如selectDoms为4元数组[dom1,dom2,dom3,dom4],那么函数里会把数组转化成 [3,5,17,0]后传入his_multilevel_linkage_ini中
+ * 例如传入的chooseId是17，那么会自动寻找其父类，得到[17,父类5,再父类3]，17对应的是第三级分类,
+ * 此时例如selectDoms为4元数组[dom1,dom2,dom3,dom4],那么函数里会把数组转化成 [3,5,17,0]后传入his_multilevel_linkage_ini
  *
- * 另外需要注意的是，选择器value为0表示没有选中值或等于选择了topTitle
+ * 另外需要注意的是，选择器value为0表示没有选中或等于选择了topTitle
  */
 
 
