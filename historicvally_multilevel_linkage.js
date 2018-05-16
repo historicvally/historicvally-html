@@ -13,9 +13,9 @@
  * url是数据请求链接
  * chooseIds 是一个数组，包含了每一级已经选择的id，如果没有初始值的话请传null
  * chooseId是一个id，允许是任意一级的id
- * 示例 his_multilevel_linkage_ini_easy(["parentId0","parentId1"], "/listAllCategory", 12,"--please select--")
- * 或者 his_multilevel_linkage_ini(["parentId0","parentId1"], "/listAllCategory", [8,12],"未选择");
- * 或者 his_multilevel_linkage_ini(["parentId0","parentId1"], "/listAllCategory", null,"--请选择--");
+ * 示例 his_multilevel_linkage_ini_easy(["select0","select1"], "/listAllCategory", 12,"--please select--")
+ * 或者 his_multilevel_linkage_ini(["select0","select1"], "/listAllCategory", [8,12],"未选择");
+ * 或者 his_multilevel_linkage_ini(["select0","select1"], "/listAllCategory", null,"--请选择--");
  *
  * his_multilevel_linkage_ini_easy部分原理示例说明：
  * 例如传入的chooseId是17，那么会自动寻找其父类，得到[17,父类5,再父类3]，17对应的是第三级分类,
