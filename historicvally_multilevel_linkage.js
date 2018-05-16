@@ -13,9 +13,9 @@
  * url是数据请求链接
  * chooseIds 是一个数组，包含了每一级已经选择的id，如果没有初始值的话请传null
  * chooseId是一个id，允许是任意一级的id
- * 示例 his_multilevel_linkage_ini_easy(["parentId0","parentId1"], "/listAllCategory", 12,"please select")
+ * 示例 his_multilevel_linkage_ini_easy(["parentId0","parentId1"], "/listAllCategory", 12,"--please select--")
  * 或者 his_multilevel_linkage_ini(["parentId0","parentId1"], "/listAllCategory", [8,12],"please choose");
- * 或者 his_multilevel_linkage_ini(["parentId0","parentId1"], "/listAllCategory", null,"请选择");
+ * 或者 his_multilevel_linkage_ini(["parentId0","parentId1"], "/listAllCategory", null,"--请选择--");
  *
  * his_multilevel_linkage_ini_easy部分原理示例说明：
  * 例如传入的chooseId是17，那么会自动寻找其父类，得到[17,父类5,再父类3]，17对应的是第三级分类,
@@ -29,7 +29,7 @@ function his_multilevel_linkage_ini_easy(selectDoms, url, chooseId,topTitle) {
 
     $.get(url, {}, function (data) {
         var dataContent = data.content;
-        if (chooseId == null) {
+        if (chooseId == null||chooseId==0) {
             his_multilevel_linkage(selectDoms, null, dataContent,topTitle);
         } else {
             var chooseIdsTmp = [];//例如[17,5,3]
@@ -86,7 +86,7 @@ function his_multilevel_linkage(selectDoms, chooseIds, data,topTitle) {
             tmp_option = " <option value='0'   >"+topTitle+"</option>";
             for (var i = 0; i < data.length; i++) {
                 //console.log("jOut="+jOut+"data[i].parentId="+data[i].parentId );
-                if ((jOut == 0 && data[i].parentId == 0) || (chooseIds == null || data[i].parentId == chooseIds[jOut - 1])) {
+                if ((jOut == 0 && data[i].parentId == 0) || (chooseIds != null && data[i].parentId == chooseIds[jOut - 1])) {
                     if (chooseIds != null && chooseIds[jOut] == data[i].id) {
                         tmp_option = tmp_option + " <option value='" + data[i].id + "'  selected='selected'  >" + data[i].name + "</option>";
                     } else {
