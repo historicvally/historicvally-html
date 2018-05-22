@@ -18,25 +18,21 @@
  * 或者 his_multilevel_linkage_ini(["select0","select1"], "/listAllCategory", [8,12],"未选择");
  * 或者 his_multilevel_linkage_ini(["select0","select1"], "/listAllCategory", null,"--请选择--");
  *
- *
  * his_multilevel_linkage_ini_easy部分原理示例说明：
- * 例如传入chooseId是17，那么会自动寻找其父类，得到[17,父类5,再父类3]，得到17对应第三级分类,如果selectDoms为4元数组[dom1,dom2,dom3,dom4],那么会把数组转化成[3,5,17,0]后传入his_multilevel_linkage_ini中处理
+ * 例如传入chooseId是17，那么会自动寻找其父类，得到[17,父类5,再父类3]，这里17对应第三级分类,如果selectDoms为4元数组[dom1,dom2,dom3,dom4],那么会把数组转化成[3,5,17,0]后传入his_multilevel_linkage_ini中处理
  */
 
 
 function his_multilevel_linkage_ini_easy(selectDoms, url, chooseId,topTitle) {
-
     $.get(url, {}, function (data) {
         var dataContent = data.content;
         his_multilevel_linkage_ini_data_easy(selectDoms, dataContent, chooseId,topTitle)
     }, "json");
-
 }
 
 
 
 function his_multilevel_linkage_ini_data_easy(selectDoms, dataContent, chooseId,topTitle) {
-
     if (chooseId == null||chooseId==0) {
         his_multilevel_linkage(selectDoms, null, dataContent,topTitle);
     } else {
@@ -57,13 +53,11 @@ function his_multilevel_linkage_ini_data_easy(selectDoms, dataContent, chooseId,
                 breakTagOut = true;
             }
         }
-
         //console.log("chooseIdsTmp=" + JSON.stringify(chooseIdsTmp));
         var chooseIds = [];//例如[0,0,0,0,0,0]
         for (jOut = 0; jOut < selectDoms.length; jOut++) {
             chooseIds[jOut] = 0;
         }
-
         // 打算变成 [3,5,17,0,0,0]
         var chooseIdsTmpIndex = chooseIdsTmp.length - 1;
         for (jOut = 0; chooseIdsTmpIndex >= 0; chooseIdsTmpIndex--, jOut++) {
@@ -72,8 +66,6 @@ function his_multilevel_linkage_ini_data_easy(selectDoms, dataContent, chooseId,
         his_multilevel_linkage(selectDoms, chooseIds, dataContent,topTitle);
     }
 }
-
-
 
 function his_multilevel_linkage_ini(selectDoms, url, chooseIds,topTitle) {
     $.get(url, {}, function (data) {
@@ -89,7 +81,6 @@ function his_multilevel_linkage(selectDoms, chooseIds, data,topTitle) {
 
         if (jOut > 0 && chooseIds == null) {
         } else {
-
             tmp_option = " <option value='0'   >"+topTitle+"</option>";
             for (var i = 0; i < data.length; i++) {
                 //console.log("jOut="+jOut+"data[i].parentId="+data[i].parentId );
@@ -112,7 +103,6 @@ function his_multilevel_linkage(selectDoms, chooseIds, data,topTitle) {
             his_multilevel_linkage_listenChange(selectDoms, jOut2, data,topTitle);
         }
     }
-
 }
 
 
@@ -126,10 +116,8 @@ function his_multilevel_linkage_listenChange(selectDoms, tmpjOut, data,topTitle)
         for (var tmpjOutInner = tmpjOut + 1; tmpjOutInner < selectDoms.length; tmpjOutInner++) {
             $("#" + selectDoms[tmpjOutInner]).html("");
         }
-
         var fatherId = parentDom.val();
         //console.log("selectDoms=" + selectDoms[tmpjOut] + "  tmpjOut=" + tmpjOut + " fatherId=" + fatherId);
-
         tmp_option = " <option value='0'   >"+topTitle+"</option>";
         var hasNext = false;
         for (var i = 0; i < data.length; i++) {

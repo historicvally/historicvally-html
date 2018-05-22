@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>his_multilevel_linkage</title>
+    <meta content="" name="keywords"/>
+    <meta content="" name="description"/>
+    <style type="text/css">
+        .his_select{
+            min-width:100px; 
+        }
+    </style>
+</head>
+<body>
+<label>his_multilevel_linkage:</label>
+<div>
+    <select class="his_select" id="select0">
+    </select>
+    <select class="his_select" id="select1">
+    </select>
+    <select class="his_select" id="select2">
+    </select>
+</div>
+
+<script src="../thirdjs/jquery-1.12.4.min.js"></script>
+<script src="historicvally_multilevel_linkage.js"></script>
+<script>
+    $(function () {
+        his_multilevel_linkage_ini_data_easy(
+            ["select0", "select1", "select2"],
+            [
+                {"id": 15, "name": "a", "parentId": 12},
+                {"id": 14, "name": "b", "parentId": 12},
+                {"id": 12, "name": "c", "parentId": 8},
+                {"id": 11, "name": "d", "parentId": 0},
+                {"id": 10, "name": "e", "parentId": 0},
+                {"id": 8, "name": "f", "parentId": 0}
+            ],
+            12,
+            "--please select--")
+    });
+</script>
+</body>
+</html>
