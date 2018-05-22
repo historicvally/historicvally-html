@@ -6,13 +6,13 @@
  * @intro 任意级数多级联动控件，通用性强，容忍性高，使用简单，便于多语言
  *
  * 我参与了很多web项目的开发，常遇到需要使用多级联动选择器的场景，但是一直没有找到简单通用的多级联动代码，所以我特地写了一个供大家直接使用和参考
- * 尤其是针对数据库中定义了一张有父类子关系的表，而前后端需要展示并初始化选中值的时候，使用该控件能大大简化前后端开发的工作量
+ * 尤其是针对数据库中定义了一张有父类子关系的表，前端需要展示并初始化选中值的情况，使用该控件能大大简化前后端开发的工作量
  *
- * 请求返回的数据放在content字段里,是一个列表，列表中的json对象需要至少包含以下字段：id,parentId,name。其中顶级对象的parentId为0。
+ * 请求返回的数据是对应content字段的一个列表，列表中的json对象需要至少包含以下字段：id,parentId,name，其中顶级对象的parentId为0。返回数据示例：{"code":200,"content":[{"id":15,"name":"a","parentId":12},{"id":14,"name":"b","parentId":12},{"id":12,"name":"c","parentId":8},{"id":11,"name":"d","parentId":0},{"id":10,"name":"e","parentId":0},{"id":8,"name":"f","parentId":0}]}
  * selectDoms是一个数组，传入select的id列表
  * url是数据请求链接
- * chooseIds 是一个数组，包含了每一级已经选择的id，如果没有初始值的话请传null
- * chooseId是一个id，允许是任意一级的id
+ * chooseIds是一个数组，包含了每一级已经选择的id，如果没有初始值的话请传null
+ * chooseId是一个id，可以是任意一级的id
  * 示例 his_multilevel_linkage_ini_easy(["select0","select1"], "/listAllCategory", 12,"--please select--")
  * 或者 his_multilevel_linkage_ini_data_easy(["select0","select1"], [{"id":15,"name":"a","parentId":12},{"id":14,"name":"b","parentId":12},{"id":12,"name":"c","parentId":8},{"id":11,"name":"d","parentId":0},{"id":10,"name":"e","parentId":0},{"id":8,"name":"f","parentId":0}], 12,"please select")
  * 或者 his_multilevel_linkage_ini(["select0","select1"], "/listAllCategory", [8,12],"未选择");
@@ -20,10 +20,7 @@
  *
  *
  * his_multilevel_linkage_ini_easy部分原理示例说明：
- * 例如传入的chooseId是17，那么会自动寻找其父类，得到[17,父类5,再父类3]，17对应的是第三级分类,
- * 此时例如selectDoms为4元数组[dom1,dom2,dom3,dom4],那么函数里会把数组转化成 [3,5,17,0]后传入his_multilevel_linkage_ini
- *
- * 另外需要注意的是，选择器value为0表示没有选中或等于选择了topTitle
+ * 例如传入chooseId是17，那么会自动寻找其父类，得到[17,父类5,再父类3]，得到17对应第三级分类,如果selectDoms为4元数组[dom1,dom2,dom3,dom4],那么会把数组转化成[3,5,17,0]后传入his_multilevel_linkage_ini中处理
  */
 
 
