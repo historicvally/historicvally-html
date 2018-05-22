@@ -3,7 +3,7 @@
  * @email sslkiss7@gmail.com
  * @version 1.0
  * @date Create Time：2018/5/15 22:26
- * @intro 任意级数多级联动控件，通用性强，容忍性高，使用简单
+ * @intro 任意级数多级联动控件，通用性强，容忍性高，使用简单，便于多语言
  *
  * 我参与了很多web项目的开发，常遇到需要使用多级联动选择器的场景，但是一直没有找到简单通用的多级联动代码，所以我特地写了一个供大家直接使用和参考
  * 尤其是针对数据库中定义了一张有父类子关系的表，而前后端需要展示并初始化选中值的时候，使用该控件能大大简化前后端开发的工作量
@@ -14,8 +14,10 @@
  * chooseIds 是一个数组，包含了每一级已经选择的id，如果没有初始值的话请传null
  * chooseId是一个id，允许是任意一级的id
  * 示例 his_multilevel_linkage_ini_easy(["select0","select1"], "/listAllCategory", 12,"--please select--")
+ * 或者 his_multilevel_linkage_ini_data_easy(["select0","select1"], [{"id":15,"name":"a","parentId":12},{"id":14,"name":"b","parentId":12},{"id":12,"name":"c","parentId":8},{"id":11,"name":"d","parentId":0},{"id":10,"name":"e","parentId":0},{"id":8,"name":"f","parentId":0}], 12,"please select")
  * 或者 his_multilevel_linkage_ini(["select0","select1"], "/listAllCategory", [8,12],"未选择");
  * 或者 his_multilevel_linkage_ini(["select0","select1"], "/listAllCategory", null,"--请选择--");
+ *
  *
  * his_multilevel_linkage_ini_easy部分原理示例说明：
  * 例如传入的chooseId是17，那么会自动寻找其父类，得到[17,父类5,再父类3]，17对应的是第三级分类,
@@ -29,43 +31,51 @@ function his_multilevel_linkage_ini_easy(selectDoms, url, chooseId,topTitle) {
 
     $.get(url, {}, function (data) {
         var dataContent = data.content;
-        if (chooseId == null||chooseId==0) {
-            his_multilevel_linkage(selectDoms, null, dataContent,topTitle);
-        } else {
-            var chooseIdsTmp = [];//例如[17,5,3]
-            var nowChooseIdTmp = chooseId;
-            var breakTagOut = false;
-            for (var jOut = 0; jOut < selectDoms.length && !breakTagOut; jOut++) {
-                var breakTag = false;
-                for (var i = 0; i < dataContent.length && !breakTag; i++) {
-                    if (dataContent[i].id == nowChooseIdTmp) {
-                        chooseIdsTmp[jOut] = nowChooseIdTmp;
-                        nowChooseIdTmp = dataContent[i].parentId;
-                        //console.log("nowChooseIdTmp=" + nowChooseIdTmp );
-                        breakTag = true;
-                    }
-                }
-                if (!breakTag) {
-                    breakTagOut = true;
-                }
-            }
-
-            //console.log("chooseIdsTmp=" + JSON.stringify(chooseIdsTmp));
-            var chooseIds = [];//例如[0,0,0,0,0,0]
-            for (jOut = 0; jOut < selectDoms.length; jOut++) {
-                chooseIds[jOut] = 0;
-            }
-
-            // 打算变成 [3,5,17,0,0,0]
-            var chooseIdsTmpIndex = chooseIdsTmp.length - 1;
-            for (jOut = 0; chooseIdsTmpIndex >= 0; chooseIdsTmpIndex--, jOut++) {
-                chooseIds[jOut] = chooseIdsTmp[chooseIdsTmpIndex];
-            }
-            his_multilevel_linkage(selectDoms, chooseIds, dataContent,topTitle);
-        }
+        his_multilevel_linkage_ini_data_easy(selectDoms, dataContent, chooseId,topTitle)
     }, "json");
 
 }
+
+
+
+function his_multilevel_linkage_ini_data_easy(selectDoms, dataContent, chooseId,topTitle) {
+
+    if (chooseId == null||chooseId==0) {
+        his_multilevel_linkage(selectDoms, null, dataContent,topTitle);
+    } else {
+        var chooseIdsTmp = [];//例如[17,5,3]
+        var nowChooseIdTmp = chooseId;
+        var breakTagOut = false;
+        for (var jOut = 0; jOut < selectDoms.length && !breakTagOut; jOut++) {
+            var breakTag = false;
+            for (var i = 0; i < dataContent.length && !breakTag; i++) {
+                if (dataContent[i].id == nowChooseIdTmp) {
+                    chooseIdsTmp[jOut] = nowChooseIdTmp;
+                    nowChooseIdTmp = dataContent[i].parentId;
+                    //console.log("nowChooseIdTmp=" + nowChooseIdTmp );
+                    breakTag = true;
+                }
+            }
+            if (!breakTag) {
+                breakTagOut = true;
+            }
+        }
+
+        //console.log("chooseIdsTmp=" + JSON.stringify(chooseIdsTmp));
+        var chooseIds = [];//例如[0,0,0,0,0,0]
+        for (jOut = 0; jOut < selectDoms.length; jOut++) {
+            chooseIds[jOut] = 0;
+        }
+
+        // 打算变成 [3,5,17,0,0,0]
+        var chooseIdsTmpIndex = chooseIdsTmp.length - 1;
+        for (jOut = 0; chooseIdsTmpIndex >= 0; chooseIdsTmpIndex--, jOut++) {
+            chooseIds[jOut] = chooseIdsTmp[chooseIdsTmpIndex];
+        }
+        his_multilevel_linkage(selectDoms, chooseIds, dataContent,topTitle);
+    }
+}
+
 
 
 function his_multilevel_linkage_ini(selectDoms, url, chooseIds,topTitle) {
